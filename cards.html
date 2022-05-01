@@ -11,6 +11,12 @@
 	<!-- <script src='html2canvas.min.js'></script> -->
 
 	<style>
+		body {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
 		.btn {
 			background-color: #32599f;
 			color: white;
@@ -30,31 +36,11 @@
 			height: 30px;
 			width: 300px;
 		}
-		
-		#greetMessage {
-			position: absolute;
-			right: 60px;
-			margin-top: 199px;
-			font-family: system-ui;
-			font-weight: bold;
-			font-size: 20px;
-			color: #32599f;
-		}
-		
+				
 		#displayedName {
 			position: absolute;
-			right: 270px;
-			margin-top: 195px;
-			font-family: system-ui;
-			font-weight: bold;
-			font-size: 20px;
-			color: #32599f;
-		}
-		
-		#ramadanMessage {
-			position: absolute;
-			right: 200px;
-			margin-top: 280px;
+			right: 5%;
+			bottom: 46%;
 			font-family: system-ui;
 			font-weight: bold;
 			font-size: 20px;
@@ -63,8 +49,8 @@
 		
 		#footerMessage {
 			position: absolute;
-			right: 180px;
-			margin-top: 315px;
+			right: 5%;
+			bottom: 14%;
 			font-family: system-ui;
 			font-weight: bold;
 			font-size: 20px;
@@ -72,30 +58,35 @@
 		}
 		
 		#displayedEidName {
-		    position: absolute;
-			right: 250px;
-			margin-top: 216px;
-			font-family: system-ui;
+		    font-family: system-ui;
 			font-weight: bold;
-			font-size: 20px;
 			color: #c6af49;
 		}
 		
 		#picImage_eid {
 			position: absolute;
-			right: 389px;
-			margin-top: 46px;
+			right: 67%;
+			bottom: 62%;
 			border-radius: 30px;
-			width: 64px;
+			width: 65px;
 			height: 64px;
 		}
 		
 		#picImage_fasting {
 			position: absolute;
-			right: 450px;
-			margin-top: 40px;
-			width: 139px;
+			right: 78%;
+			bottom: 70%;
+			width: 141px;
 			height: 92px;
+		}
+		
+		#eidNameDiv {
+			width: 41%;
+			text-align: center;
+			right: 37%;
+			bottom: 8%;
+			height: 40px;
+			position: absolute;
 		}
 	</style>
 </head>
@@ -146,6 +137,14 @@
 				</tr>
 				
 				<tr>
+					<td />
+					<td>
+						<img id="uploadedImgElement" width="50" height="50"/>
+					</td>
+					
+				</tr>
+				
+				<tr>
 					<td colspan="2"> 
 						<h1>----------------------------------</h1>
 					</td>
@@ -164,18 +163,20 @@
 		
 		<h1>----------------------------------</h1>
 		
-		<div id="fastingCard" style="display: none">
+		<div id="fastingCard" style="display: none; width: 100%; position: relative;">
 			<img src="fastingCard.jpg" />
-			<span id="greetMessage"></span>
 			<label id="displayedName"></label>
-			<span id="ramadanMessage"></span>
 			<span id="footerMessage"></span>
 			<img id="picImage_fasting" width="100" />
 		</div>
 		
-		<div id="eidCard" style="display: none">
+		<div id="eidCard" style="display: none; width: 100%; position: relative;">
 			<img src="eidCard.jpg" />
-			<label id="displayedEidName"></label>
+			
+			<div id="eidNameDiv">
+				<label id="displayedEidName"></label>
+			</div>
+			
 			<img id="picImage_eid" width="100" />
 		</div>
 
@@ -221,21 +222,22 @@
 				  }
 			}
 			
-			var greetMessageElement = document.getElementById('greetMessage');
-			greetMessageElement.innerText = checkedGender == "female" ? femaleGreetMsg : maleGreetMsg;
-			
-			var ramadanMessageElement = document.getElementById('ramadanMessage');
-			ramadanMessageElement.innerText = checkedGender == "female" ? ramadanMessagaeForFemale : ramadanMessagaeForMale;
-			
-			var footerMessageElement = document.getElementById('footerMessage');
-			footerMessageElement.innerText = checkedGender == "female" ? footerMessageForFemale : footerMessageForMale;
-			
 			var nameValue = document.getElementById('name').value;
 			
 			if(nameValue.trim().length == 0)
 				return;
 			
-			document.getElementById('displayedName').innerText = nameValue;
+			var message = checkedGender == "female" ? femaleGreetMsg : maleGreetMsg;
+			document.getElementById('displayedName').innerText = message + " / " + nameValue;
+			
+			var finalFooterMessage = "";
+			finalFooterMessage = checkedGender == "female" ? ramadanMessagaeForFemale : ramadanMessagaeForMale;
+			finalFooterMessage += " - ";
+			finalFooterMessage += checkedGender == "female" ? footerMessageForFemale : footerMessageForMale;
+			
+			var footerMessageElement = document.getElementById('footerMessage');	
+			footerMessageElement.innerText = finalFooterMessage;
+			
 			document.getElementById('fastingCard').style.display = "block";
 			
 			/*
@@ -272,6 +274,9 @@
 		
 		var loadFile = function(event) {
 			var uploadedImg = URL.createObjectURL(event.target.files[0]);
+			
+			var uploadedImgElement = document.getElementById('uploadedImgElement');
+			uploadedImgElement.src = uploadedImg;
 			
 			var picImage_eid = document.getElementById('picImage_eid');
 			picImage_eid.src = uploadedImg;
