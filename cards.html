@@ -7,92 +7,33 @@
 	</title>
 
 	<meta http-equiv="content-type" content="text/html; charset=UTF8">
-
-	<!-- <script src='html2canvas.min.js'></script> -->
-
-	<style>
-		body {
-			width: 80%;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		.btn {
-			background-color: #32599f;
-			color: white;
-			height: 40px;
-			width: 305px;
-			font-weight: bold;
-			cursor: pointer;
-		}
-		
-		.text {
-			font-weight: bold;
-		}
-		
-		.inputText {
-			border: 1px #32599f solid;
-			border-radius: 5px;
-			height: 30px;
-			width: 300px;
-		}
-				
-		#displayedName {
-			position: absolute;
-			right: 5%;
-			bottom: 46%;
-			font-family: system-ui;
-			font-weight: bold;
-			font-size: 20px;
-			color: #32599f;
-		}
-		
-		#footerMessage {
-			position: absolute;
-			right: 5%;
-			bottom: 14%;
-			font-family: system-ui;
-			font-weight: bold;
-			font-size: 20px;
-			color: #32599f;
-		}
-		
-		#displayedEidName {
-		    font-family: system-ui;
-			font-weight: bold;
-			color: #c6af49;
-		}
-		
-		#picImage_eid {
-			position: absolute;
-			right: 67%;
-			bottom: 62%;
-			border-radius: 30px;
-			width: 65px;
-			height: 64px;
-		}
-		
-		#picImage_fasting {
-			position: absolute;
-			right: 78%;
-			bottom: 70%;
-			width: 141px;
-			height: 92px;
-		}
-		
-		#eidNameDiv {
-			width: 41%;
-			text-align: center;
-			right: 37%;
-			bottom: 8%;
-			height: 40px;
-			position: absolute;
-		}
-	</style>
+	<!--<script src='html2canvas.min.js'></script>-->
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-	<div id="cards">
+	<div id="cardsDiv">		
+		
+	</div>
+	
+	<div id="fastingCard" style="display: none">
+		<img src="fastingCard.jpg" />
+		<label id="displayedName"></label>
+		<span id="footerMessage"></span>
+		<img id="picImage_fasting" />
+	</div>
+	
+	<div id="eidCard" style="display: none">
+		<img src="eidCard.jpg" />
+		
+		<div id="eidNameDiv">
+			<label id="displayedEidName"></label>
+		</div>
+		
+		<img id="picImage_eid" />
+	</div>
+			
+	<div id="cardsForm">
 		<h1>برجاء الاختيار</h1>
 		
 		<input type="radio" id="fasting" name="cardType" value="fasting">
@@ -155,31 +96,14 @@
 						<button class="btn" onclick="createCrad()">
 							احصل علي الكارت
 						</button>
-					</td>
-				
+					</td>				
 				</tr>
 			</tbody>
-		</table>
-		
-		<h1>----------------------------------</h1>
-		
-		<div id="fastingCard" style="display: none; width: 100%; position: relative;">
-			<img src="fastingCard.jpg" />
-			<label id="displayedName"></label>
-			<span id="footerMessage"></span>
-			<img id="picImage_fasting" width="100" />
-		</div>
-		
-		<div id="eidCard" style="display: none; width: 100%; position: relative;">
-			<img src="eidCard.jpg" />
-			
-			<div id="eidNameDiv">
-				<label id="displayedEidName"></label>
-			</div>
-			
-			<img id="picImage_eid" width="100" />
-		</div>
-
+		</table>		
+	</div>
+	
+	<div id="output"></div>
+	 
 	<script type="text/javascript">
 		function createCrad() {
 			var checkedCardType = "";
@@ -194,25 +118,42 @@
 			
 			if(checkedCardType.trim().length == 0)
 				return;
-				
+			
+			var nameValue = document.getElementById('name').value;
+			
+			if(nameValue.trim().length == 0)
+				return;
+			
+			document.getElementById('cardsDiv').innerHTML = '';
+			var cardDiv = null;
+			
 			if(checkedCardType == "fasting") {
-				document.getElementById('eidCard').style.display = "none";
 				createFastingCard();
+				cardDiv = document.getElementById('fastingCard');
 			} else if(checkedCardType == "eid") {
-				document.getElementById('fastingCard').style.display = "none";
 				createEidCard();
+				cardDiv = document.getElementById('eidCard');
 			}
+			
+			if(cardDiv != null && false) {
+			    var win = window.open('','printwindow');
+				win.document.write('<html dir="rtl" lang="ar"><head><title>Print-' + new Date().getTime() +'</title><link rel="stylesheet" type="text/css" href="style.css"></head><body id="body">');
+				win.document.getElementById("body").innerHTML = "";
+				win.document.write(cardDiv.innerHTML);
+				win.document.write('</body></html>');
+				// win.onload = function() { win.print();win.close(); }
+			}
+			
+			window.scrollTo(0, 0);
 		}
 		
 		function createFastingCard() {
 			var femaleGreetMsg = "تمنح للبطلة المتميزه";
 			var maleGreetMsg = "تمنح للبطل المتميز";
-			var ramadanMessagaeForMale = "لصيامه شهر رمضان";
-			var ramadanMessagaeForFemale = "لصيامها شهر رمضان";
-			var footerMessageForMale = "بارك الله فيه وفي والديه";
-			var footerMessageForFemale = "بارك الله فيها وفي والديها";
+			var ramadanMessagaeForMale = "لصيامه شهر رمضان - بارك الله فيه وفي والديه";
+			var ramadanMessagaeForFemale = "لصيامها شهر رمضان - باك الله فيها وفي والديها";
+			
 			var checkedGender;
-		
 			var genders = document.getElementsByName('gender');
 			
 			for (var i = 0, length = genders.length; i < length; i++) {
@@ -224,66 +165,49 @@
 			
 			var nameValue = document.getElementById('name').value;
 			
-			if(nameValue.trim().length == 0)
-				return;
+			var finalGreetMessage = "";
+			finalGreetMessage += checkedGender == "female" ? femaleGreetMsg : maleGreetMsg;
+			finalGreetMessage += " / ";
+			finalGreetMessage += "<span id='ramdanName' style='color: #3248cb;'>" + nameValue + "</span>";
+		
+			document.getElementById('displayedName').innerHTML = finalGreetMessage;
 			
-			var message = checkedGender == "female" ? femaleGreetMsg : maleGreetMsg;
-			document.getElementById('displayedName').innerText = message + " / " + nameValue;
-			
-			var finalFooterMessage = "";
-			finalFooterMessage = checkedGender == "female" ? ramadanMessagaeForFemale : ramadanMessagaeForMale;
-			finalFooterMessage += " - ";
-			finalFooterMessage += checkedGender == "female" ? footerMessageForFemale : footerMessageForMale;
+			var finalFooterMessage = checkedGender == "female" ? ramadanMessagaeForFemale : ramadanMessagaeForMale;
 			
 			var footerMessageElement = document.getElementById('footerMessage');	
 			footerMessageElement.innerText = finalFooterMessage;
 			
-			document.getElementById('fastingCard').style.display = "block";
+			var picImage_fasting = document.getElementById('picImage_fasting');
+			picImage_fasting.src = document.getElementById('uploadedImgElement').src;
 			
-			/*
-			let div = document.getElementById('cert');
-
-			html2canvas(div, {
-							 useCORS : true,
-							allowTaint : true,
-							scale : 0.98,
-							dpi : 500,
-							width: 1400, height: 900
-			}).then(
-				function (canvas) {
-					document.getElementById('output').appendChild(canvas);
-					var a = document.createElement('a');
-					  a.href = canvas.toDataURL("image/png");
-					  a.download = 'myfile121.png';
-					 a.click();
-					// div.style.display = "none";
-				})
-		*/
+			document.getElementById('cardsDiv').innerHTML = document.getElementById('fastingCard').innerHTML;
 		}
 		
 		function createEidCard()  {
 			var nameValue = document.getElementById('name').value;
-			
-			if(nameValue.trim().length == 0)
-				return;
-			
 			document.getElementById('displayedEidName').innerText = nameValue;
-			document.getElementById('eidCard').style.display = "block";	
+			
+			var picImage_eid = document.getElementById('picImage_eid');
+			picImage_eid.src = document.getElementById('uploadedImgElement').src;
+						
+			document.getElementById('cardsDiv').innerHTML = document.getElementById('eidCard').innerHTML;
 		}
 		
 		
 		var loadFile = function(event) {
 			var uploadedImg = URL.createObjectURL(event.target.files[0]);
-			
 			var uploadedImgElement = document.getElementById('uploadedImgElement');
 			uploadedImgElement.src = uploadedImg;
-			
-			var picImage_eid = document.getElementById('picImage_eid');
-			picImage_eid.src = uploadedImg;
-			
-			var picImage_fasting = document.getElementById('picImage_fasting');
-			picImage_fasting.src = uploadedImg;
 		};
+		
+		function downloadURI(uri, name) {
+			var link = document.createElement("a");
+			link.download = name;
+			link.href = uri;
+			link.click();
+			//after creating link you should delete dynamic link
+			//clearDynamicLink(link); 
+		}
 	</script>
 </body>
 

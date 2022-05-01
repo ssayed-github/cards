@@ -1,0 +1,82 @@
+#cardForm {
+	width: 650px;
+	border: 1px green solid;
+	height: 550px;
+	margin-right: 10px;
+}
+
+#cardsDiv {
+	width: 600px;
+}
+
+.btn {
+	background-color: #32599f;
+	color: white;
+	height: 40px;
+	width: 305px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.text {
+	font-weight: bold;
+}
+
+.inputText {
+	border: 1px #32599f solid;
+	border-radius: 5px;
+	height: 30px;
+	width: 300px;
+}
+		
+#displayedName {
+	right: 37px;
+	top: 215px;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	color: #32599f;
+	position: absolute;
+}
+
+#footerMessage {
+	right: 35px;
+	top: 360px;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	color: #32599f;
+	position: absolute;
+}
+
+#displayedEidName {
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #c6af49;
+}
+
+#picImage_eid {
+	right: 390px;
+    top: 56px;
+    border-radius: 39px;
+    width: 62px;
+    height: 62px;
+    position: absolute;
+}
+
+#picImage_fasting {
+	right: 450px;
+	top: 49px;
+	width: 140px;
+	height: 92px;
+	position: absolute;
+}
+
+#eidNameDiv {
+	width: 200px;
+    text-align: center;
+    right: 240px;
+    top: 244px;
+    height: 40px;
+    position: absolute;
+}
